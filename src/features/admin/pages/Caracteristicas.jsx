@@ -30,7 +30,7 @@ export default function Caracteristicas() {
             </form>
             <ul>
                 {lista.map(c => (
-                    <li key={c.id}>{c.nombre} {c.padre ? `(hijo de: ${c.padre.nombre})` : "(raíz)"}</li>
+                    <li key={c.id}>{c.nombre} {c.padreId ? `(hijo de: ${c.padreNombre})` : "(raíz)"}</li>
                 ))}
             </ul>
         </div>

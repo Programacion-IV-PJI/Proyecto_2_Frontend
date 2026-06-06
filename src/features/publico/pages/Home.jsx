@@ -50,7 +50,7 @@ export default function Home() {
                              onMouseLeave={() => setHover(null)}>
                             <div>
                                 <h3 style={{ color: 'white', margin: '0 0 0.5rem 0' }}>{p.empresaNombre}</h3>
-                                <p style={{ color: '#dce8ec', margin: '0 0 0.3rem 0', fontSize: '0.9rem' }}>{p.titulo}</p>
+                                <p style={{ color: '#dce8ec', margin: '0 0 0.3rem 0', fontSize: '0.9rem' }}>{p.descripcion}</p>
                                 <p style={{ color: '#b2d0d8', margin: 0, fontSize: '0.9rem' }}>&#8353;{p.salario}</p>
                             </div>
                             <button style={btnStyle} onClick={() => navigate('/buscar')}>Mostrar más</button>

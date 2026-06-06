@@ -9,7 +9,7 @@ export default function EmpresasPendientes() {
     }, []);
 
     async function aprobar(id) {
-        await apiFetch(`/api/admin/empresas/${id}/aprobar`, { method: "PUT" });
+        await apiFetch(`/api/admin/empresas/${id}/aprobar`, { method: "POST" });
         setEmpresas(prev => prev.filter(e => e.id !== id));
     }
 

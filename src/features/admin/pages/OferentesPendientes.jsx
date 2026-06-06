@@ -9,7 +9,7 @@ export default function OferentesPendientes() {
     }, []);
 
     async function aprobar(id) {
-        await apiFetch(`/api/admin/oferentes/${id}/aprobar`, { method: "PUT" });
+        await apiFetch(`/api/admin/oferentes/${id}/aprobar`, { method: "POST" });
         setOferentes(prev => prev.filter(o => o.id !== id));
     }
 
@@ -24,7 +24,7 @@ export default function OferentesPendientes() {
             {oferentes.length === 0 && <p>No hay oferentes pendientes.</p>}
             {oferentes.map(o => (
                 <div key={o.id} style={{ border: "1px solid #ccc", padding: 12, marginBottom: 8 }}>
-                    <p><strong>{o.nombre} {o.apellidos}</strong> — {o.correo}</p>
+                    <p><strong>{o.nombre} {o.primerApellido}</strong> — {o.correo}</p>
                     <button onClick={() => aprobar(o.id)}>Aprobar</button>{" "}
                     <button onClick={() => rechazar(o.id)}>Rechazar</button>
                 </div>

@@ -19,6 +19,7 @@ export default function Login() {
             localStorage.setItem("token", data.token);
             localStorage.setItem("rol", data.rol);
             localStorage.setItem("id", data.id);
+            localStorage.setItem("nombre", data.nombre);
 
             if (data.rol === "EMPRESA") navigate("/empresa/dashboard");
             else if (data.rol === "OFERENTE") navigate("/oferente/dashboard");
