@@ -14,7 +14,7 @@ export default function OferentesPendientes() {
     }
 
     async function rechazar(id) {
-        await apiFetch(`/api/admin/oferentes/${id}/rechazar`, { method: "PUT" });
+        await apiFetch(`/api/admin/oferentes/${id}/rechazar`, { method: "POST" });
         setOferentes(prev => prev.filter(o => o.id !== id));
     }
 

@@ -14,7 +14,7 @@ export default function EmpresasPendientes() {
     }
 
     async function rechazar(id) {
-        await apiFetch(`/api/admin/empresas/${id}/rechazar`, { method: "PUT" });
+        await apiFetch(`/api/admin/empresas/${id}/rechazar`, { method: "POST" });
         setEmpresas(prev => prev.filter(e => e.id !== id));
     }
 

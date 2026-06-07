@@ -23,7 +23,9 @@ export default function BuscarPuestos() {
     const buscar = async () => {
         const params = seleccionadas.length > 0
             ? '?caracteristicas=' + seleccionadas.join(',') : '';
-        const res = await fetch('http://localhost:8080/api/puestos/buscar' + params);
+        const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: 'Bearer ' + token } : {};
+        const res = await fetch('http://localhost:8080/api/puestos/buscar' + params, { headers });
         const data = await res.json();
         setResultados(data);
         setBuscado(true);

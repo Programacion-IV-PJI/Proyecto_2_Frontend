@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function Navbar() {
+export default function Navbar({ onLoginClick }) {
     const navigate = useNavigate();
     const rol = localStorage.getItem('rol');
     const nombre = localStorage.getItem('nombre');
 
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/login');
+        navigate('/');
     };
 
     const btnStyle = {
@@ -20,6 +20,11 @@ export default function Navbar() {
         background: '#5f8fa3', border: 'none', color: 'white',
         cursor: 'pointer', fontSize: '1rem', padding: '0.5rem 1.2rem',
         borderRadius: '20px', fontWeight: 'bold'
+    };
+
+    const handleLoginClick = () => {
+        if (onLoginClick) onLoginClick();
+        else navigate('/login');
     };
 
     return (
@@ -39,7 +44,7 @@ export default function Navbar() {
                     <button style={btnStyle} onClick={() => navigate('/buscar')}>Buscar puestos</button>
                     <button style={btnStyle} onClick={() => navigate('/oferente/registro')}>Registro Oferente</button>
                     <button style={btnStyle} onClick={() => navigate('/empresa/registro')}>Registro Empresa</button>
-                    <button style={loginBtn} onClick={() => navigate('/login')}>Login</button>
+                    <button style={loginBtn} onClick={handleLoginClick}>Login</button>
                 </>}
                 {rol === 'EMPRESA' && <>
                     <button style={btnStyle} onClick={() => navigate('/empresa/dashboard')}>Dashboard</button>

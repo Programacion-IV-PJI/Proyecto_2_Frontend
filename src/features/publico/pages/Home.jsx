@@ -6,6 +6,10 @@ import Footer from '../../../shared/components/Footer';
 export default function Home() {
     const [puestos, setPuestos] = useState([]);
     const [hover, setHover] = useState(null);
+    const [showLogin, setShowLogin] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorLogin, setErrorLogin] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -14,6 +18,27 @@ export default function Home() {
             .then(setPuestos)
             .catch(console.error);
     }, []);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setErrorLogin('');
+        try {
+            const res = await fetch('http://localhost:8080/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identificacion: username, clave: password })
+            });
+            if (!res.ok) { setErrorLogin('Credenciales incorrectas'); return; }
+            const data = await res.json();
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('rol', data.rol);
+            localStorage.setItem('nombre', data.nombre);
+            setShowLogin(false);
+            if (data.rol === 'EMPRESA') navigate('/empresa/dashboard');
+            else if (data.rol === 'OFERENTE') navigate('/oferente/dashboard');
+            else if (data.rol === 'ADMIN') navigate('/admin/dashboard');
+        } catch { setErrorLogin('Error conectando con el servidor'); }
+    };
 
     const cardStyle = {
         background: '#5f8f9e', borderRadius: '16px', padding: '1.2rem',
@@ -37,7 +62,48 @@ export default function Home() {
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#1e2a38' }}>
-            <Navbar />
+            <Navbar onLoginClick={() => setShowLogin(true)} />
+
+            {/* Modal Login */}
+            {showLogin && (
+                <div style={{
+                    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+                    background: 'rgba(0,0,0,0.6)', zIndex: 100,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                    <div style={{
+                        background: 'white', color: '#1e2a38', padding: '2rem',
+                        borderRadius: '12px', width: '320px'
+                    }}>
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Login</h2>
+                        {errorLogin && <p style={{ color: 'red' }}>{errorLogin}</p>}
+                        <form onSubmit={handleLogin}>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label>Usuario</label><br />
+                                <input value={username} onChange={e => setUsername(e.target.value)}
+                                       style={{ width: '100%', padding: '8px' }} required />
+                            </div>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label>Clave</label><br />
+                                <input type="password" value={password}
+                                       onChange={e => setPassword(e.target.value)}
+                                       style={{ width: '100%', padding: '8px' }} required />
+                            </div>
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                <button type="submit"
+                                        style={{ flex: 1, padding: '8px', background: '#5f8f9e', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                                    Ingresar
+                                </button>
+                                <button type="button" onClick={() => setShowLogin(false)}
+                                        style={{ flex: 1, padding: '8px', background: '#ccc', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             <div style={{ padding: '2.5rem', flex: 1 }}>
                 <h1 style={{ color: 'white', textAlign: 'center', fontSize: '2.2rem',
                     borderBottom: '2px solid #5f8f9e', paddingBottom: '1rem', marginBottom: '2rem' }}>
