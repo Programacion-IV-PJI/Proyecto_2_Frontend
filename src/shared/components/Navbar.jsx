@@ -7,9 +7,8 @@ export default function Navbar({ onLoginClick }) {
 
     const handleLogout = () => {
         localStorage.clear();
-        navigate('/');
+        window.location.href = '/';
     };
-
     const btnStyle = {
         background: 'transparent', border: 'none', color: '#ccc',
         cursor: 'pointer', fontSize: '1rem', padding: '0.4rem 0.8rem',

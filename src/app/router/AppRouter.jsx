@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 import Login from '../../features/auth/pages/Login';
 import Home from '../../features/publico/pages/Home';
 import BuscarPuestos from '../../features/publico/pages/BuscarPuestos';
@@ -23,24 +24,44 @@ export default function AppRouter() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/buscar" element={<BuscarPuestos />} />
+                <Route path="/oferente/registro" element={<RegistroOferente />} />
+                <Route path="/empresa/registro" element={<RegistroEmpresa />} />
 
                 {/* Oferente */}
-                <Route path="/oferente/registro" element={<RegistroOferente />} />
-                <Route path="/oferente/dashboard" element={<DashboardOferente />} />
-                <Route path="/oferente/habilidades" element={<Habilidades />} />
-                <Route path="/oferente/cv" element={<SubirCV />} />
+                <Route path="/oferente/dashboard" element={
+                    <ProtectedRoute rol="OFERENTE"><DashboardOferente /></ProtectedRoute>
+                } />
+                <Route path="/oferente/habilidades" element={
+                    <ProtectedRoute rol="OFERENTE"><Habilidades /></ProtectedRoute>
+                } />
+                <Route path="/oferente/cv" element={
+                    <ProtectedRoute rol="OFERENTE"><SubirCV /></ProtectedRoute>
+                } />
 
                 {/* Empresa */}
-                <Route path="/empresa/registro" element={<RegistroEmpresa />} />
-                <Route path="/empresa/dashboard" element={<DashboardEmpresa />} />
-                <Route path="/empresa/crear-puesto" element={<CrearPuesto />} />
-                <Route path="/empresa/candidatos/:puestoId" element={<BuscarCandidatos />} />
+                <Route path="/empresa/dashboard" element={
+                    <ProtectedRoute rol="EMPRESA"><DashboardEmpresa /></ProtectedRoute>
+                } />
+                <Route path="/empresa/crear-puesto" element={
+                    <ProtectedRoute rol="EMPRESA"><CrearPuesto /></ProtectedRoute>
+                } />
+                <Route path="/empresa/candidatos/:puestoId" element={
+                    <ProtectedRoute rol="EMPRESA"><BuscarCandidatos /></ProtectedRoute>
+                } />
 
                 {/* Admin */}
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/admin/empresas-pendientes" element={<EmpresasPendientes />} />
-                <Route path="/admin/oferentes-pendientes" element={<OferentesPendientes />} />
-                <Route path="/admin/caracteristicas" element={<Caracteristicas />} />
+                <Route path="/admin/dashboard" element={
+                    <ProtectedRoute rol="ADMIN"><AdminDashboard /></ProtectedRoute>
+                } />
+                <Route path="/admin/empresas-pendientes" element={
+                    <ProtectedRoute rol="ADMIN"><EmpresasPendientes /></ProtectedRoute>
+                } />
+                <Route path="/admin/oferentes-pendientes" element={
+                    <ProtectedRoute rol="ADMIN"><OferentesPendientes /></ProtectedRoute>
+                } />
+                <Route path="/admin/caracteristicas" element={
+                    <ProtectedRoute rol="ADMIN"><Caracteristicas /></ProtectedRoute>
+                } />
 
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
